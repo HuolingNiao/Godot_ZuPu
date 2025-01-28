@@ -1,0 +1,81 @@
+[gd_scene load_steps=2 format=3 uid="uid://d2u44jsqbcx3s"]
+
+[ext_resource type="Script" path="res://族譜UI相關/主菜單.gd" id="1_x5uwe"]
+
+[node name="主菜單" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_x5uwe")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="新建族譜" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(50, 150)
+layout_mode = 2
+text = "新
+建
+族
+譜"
+
+[node name="載入族譜" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(50, 150)
+layout_mode = 2
+text = "載
+入
+族
+譜"
+
+[node name="導出數據" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(50, 150)
+layout_mode = 2
+text = "導
+出
+數
+據"
+
+[node name="文件排版" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(50, 150)
+layout_mode = 2
+text = "書
+籍
+排
+版"
+
+[node name="導出pdf" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(50, 150)
+layout_mode = 2
+text = "導
+出
+pdf"
+
+[node name="返回主菜單" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(50, 150)
+layout_mode = 2
+text = "返
+回
+主
+菜
+單
+"
+
+[node name="退出應用" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(50, 150)
+layout_mode = 2
+text = "退
+出
+應
+用
+"
+
+[connection signal="pressed" from="HBoxContainer/新建族譜" to="." method="新建族譜"]
+[connection signal="pressed" from="HBoxContainer/載入族譜" to="." method="載入族譜"]
+[connection signal="pressed" from="HBoxContainer/文件排版" to="." method="_on_文件排版_pressed"]
+[connection signal="pressed" from="HBoxContainer/返回主菜單" to="." method="返回主菜單"]
+[connection signal="pressed" from="HBoxContainer/退出應用" to="." method="退出"]

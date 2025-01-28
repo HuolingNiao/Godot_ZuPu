@@ -1,0 +1,133 @@
+[gd_scene load_steps=5 format=3 uid="uid://bxpq55srfogkb"]
+
+[ext_resource type="Script" path="res://数据库/数据库管理UI.gd" id="1_0trel"]
+[ext_resource type="LabelSettings" uid="uid://bsbchrotoeonc" path="res://数据库/数据库管理.tres" id="2_ladxw"]
+[ext_resource type="Script" path="res://数据库/時間輸入接口.gd" id="2_qnmw3"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_w8j1p"]
+font_size = 33
+
+[node name="数据库管理" type="Node2D"]
+script = ExtResource("1_0trel")
+
+[node name="Panel" type="Panel" parent="."]
+offset_left = 1.0
+offset_right = 401.0
+offset_bottom = 1002.0
+
+[node name="标题" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 20.0
+offset_right = 362.0
+offset_bottom = 66.0
+text = "轩辕族谱成员管理系统"
+label_settings = SubResource("LabelSettings_w8j1p")
+
+[node name="HSeparator" type="HSeparator" parent="Panel"]
+layout_mode = 0
+offset_top = 57.0
+offset_right = 402.0
+offset_bottom = 93.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 83.0
+offset_right = 366.0
+offset_bottom = 129.0
+alignment = 1
+
+[node name="姓名" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "成员姓名"
+label_settings = ExtResource("2_ladxw")
+
+[node name="成员姓名" type="LineEdit" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(30, 50)
+layout_mode = 2
+placeholder_text = "请输入成员姓名"
+
+[node name="姓名2" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "詳細信息"
+label_settings = ExtResource("2_ladxw")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="性别" type="CheckButton" parent="Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "男"
+
+[node name="健在" type="CheckButton" parent="Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+button_pressed = true
+text = "健在"
+
+[node name="text" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "成员出生时间"
+label_settings = ExtResource("2_ladxw")
+
+[node name="出生時間" type="HBoxContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+script = ExtResource("2_qnmw3")
+
+[node name="LineEdit" type="LineEdit" parent="Panel/VBoxContainer/出生時間"]
+custom_minimum_size = Vector2(150, 50)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/出生時間"]
+layout_mode = 2
+text = "時
+辰"
+
+[node name="OptionButton" type="OptionButton" parent="Panel/VBoxContainer/出生時間"]
+layout_mode = 2
+
+[node name="text2" type="Label" parent="Panel/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "成员陨落时间"
+label_settings = ExtResource("2_ladxw")
+
+[node name="出生時間2" type="HBoxContainer" parent="Panel/VBoxContainer"]
+visible = false
+layout_mode = 2
+script = ExtResource("2_qnmw3")
+
+[node name="LineEdit" type="LineEdit" parent="Panel/VBoxContainer/出生時間2"]
+custom_minimum_size = Vector2(150, 50)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/出生時間2"]
+layout_mode = 2
+text = "時
+辰"
+
+[node name="OptionButton" type="OptionButton" parent="Panel/VBoxContainer/出生時間2"]
+layout_mode = 2
+
+[node name="text3" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "成员简介"
+label_settings = ExtResource("2_ladxw")
+
+[node name="個人簡介" type="TextEdit" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(200, 500)
+layout_mode = 2
+wrap_mode = 1
+
+[node name="生成簡介" type="Button" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+text = "生成簡介"
+
+[node name="添加" type="Button" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+text = "確  定"
+
+[connection signal="pressed" from="Panel/VBoxContainer/生成簡介" to="." method="生成簡介"]
+[connection signal="pressed" from="Panel/VBoxContainer/添加" to="." method="_on_button_pressed"]

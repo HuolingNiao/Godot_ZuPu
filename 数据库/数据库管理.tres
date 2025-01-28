@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://bsbchrotoeonc"]
+
+[ext_resource type="FontFile" uid="uid://du8jkny5waxwn" path="res://族譜UI相關/素材/TypeLand.com 康熙字典體完整版.ttf" id="1_qts0s"]
+
+[resource]
+font = ExtResource("1_qts0s")
+font_size = 24

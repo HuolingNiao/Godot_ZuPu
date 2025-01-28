@@ -1,0 +1,142 @@
+[gd_scene load_steps=9 format=3 uid="uid://12g854d2kmhd"]
+
+[ext_resource type="Script" path="res://数据库/數據庫管理界面.gd" id="1_7j4sx"]
+[ext_resource type="Texture2D" uid="uid://dgsthpgcupqvd" path="res://族譜UI相關/素材/pexels-souvenirpixels-1542495.jpg" id="2_r8hpe"]
+[ext_resource type="PackedScene" uid="uid://bxpq55srfogkb" path="res://数据库/数据库管理.tscn" id="2_yg6a6"]
+[ext_resource type="PackedScene" uid="uid://d2u44jsqbcx3s" path="res://族譜UI相關/主菜單.tscn" id="3_5u23l"]
+
+[sub_resource type="Animation" id="Animation_k28vb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VBoxContainer/数据库管理:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1399, -1072)]
+}
+
+[sub_resource type="Animation" id="Animation_khr5e"]
+resource_name = "出去"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VBoxContainer/数据库管理:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.166667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1394, -24), Vector2(1394, -142), Vector2(1394, -1071)]
+}
+
+[sub_resource type="Animation" id="Animation_gbn25"]
+resource_name = "進入"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VBoxContainer/数据库管理:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.466667, 0.566667),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1399, -1072), Vector2(1399, 3), Vector2(1399, -40), Vector2(1394, -21)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_od5wb"]
+_data = {
+"RESET": SubResource("Animation_k28vb"),
+"出去": SubResource("Animation_khr5e"),
+"進入": SubResource("Animation_gbn25")
+}
+
+[node name="分支樹管理系統" type="Node2D"]
+script = ExtResource("1_7j4sx")
+
+[node name="Pexels-souvenirpixels-1542495" type="Sprite2D" parent="."]
+position = Vector2(963, 592)
+scale = Vector2(0.648333, 0.708854)
+texture = ExtResource("2_r8hpe")
+
+[node name="Tree" type="Tree" parent="."]
+offset_left = 106.0
+offset_top = 42.0
+offset_right = 955.0
+offset_bottom = 1032.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 43.0
+offset_top = 43.0
+offset_right = 99.0
+offset_bottom = 375.0
+
+[node name="添加始祖" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "添加
+始祖"
+
+[node name="添加配偶" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "添加
+配偶"
+
+[node name="添加兄弟" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "添加
+兄弟"
+
+[node name="添加子女" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "添加
+子女"
+
+[node name="修改成員" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "修改
+更新"
+
+[node name="刪除成員" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "刪除
+成員"
+
+[node name="清空數據庫" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "清空
+數據庫"
+
+[node name="数据库管理" parent="VBoxContainer" instance=ExtResource("2_yg6a6")]
+position = Vector2(1399, -1072)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_od5wb")
+}
+
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
+ok_button_text = "確定"
+
+[node name="主菜單" parent="." instance=ExtResource("3_5u23l")]
+offset_left = 976.0
+offset_top = 39.0
+offset_right = 976.0
+offset_bottom = 39.0
+
+[connection signal="pressed" from="VBoxContainer/添加始祖" to="." method="創建始祖"]
+[connection signal="pressed" from="VBoxContainer/添加配偶" to="." method="添加配偶"]
+[connection signal="pressed" from="VBoxContainer/添加兄弟" to="." method="添加兄弟"]
+[connection signal="pressed" from="VBoxContainer/添加子女" to="." method="添加子女"]
+[connection signal="pressed" from="VBoxContainer/修改成員" to="." method="修改成員"]
+[connection signal="pressed" from="VBoxContainer/刪除成員" to="." method="刪除成員"]
+[connection signal="pressed" from="VBoxContainer/清空數據庫" to="." method="清空數據庫"]
+[connection signal="更新簡介" from="VBoxContainer/数据库管理" to="." method="生成簡介"]
+[connection signal="錯誤" from="VBoxContainer/数据库管理" to="." method="_on_数据库管理_錯誤"]

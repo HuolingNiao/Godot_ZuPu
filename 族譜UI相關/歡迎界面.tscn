@@ -1,0 +1,75 @@
+[gd_scene load_steps=4 format=3 uid="uid://ddoe5u78b8sl1"]
+
+[ext_resource type="Script" path="res://族譜UI相關/歡迎界面.gd" id="1_237om"]
+[ext_resource type="Texture2D" uid="uid://de7js0rrgjtlm" path="res://族譜UI相關/素材/pexels-simon73-1323550.jpg" id="2_ac3rl"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ycwuw"]
+line_spacing = 17.0
+font_size = 60
+font_color = Color(0, 0, 0, 1)
+shadow_size = 9
+shadow_color = Color(1, 1, 1, 1)
+shadow_offset = Vector2(3, 3)
+
+[node name="歡迎界面" type="Node2D"]
+script = ExtResource("1_237om")
+
+[node name="Pexels-simon73-1323550" type="Sprite2D" parent="."]
+position = Vector2(971.25, 693.125)
+scale = Vector2(0.418294, 0.46971)
+texture = ExtResource("2_ac3rl")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 1610.0
+offset_top = 167.0
+offset_right = 1670.0
+offset_bottom = 484.0
+text = "軒
+轅
+族
+譜"
+label_settings = SubResource("LabelSettings_ycwuw")
+
+[node name="new" type="Button" parent="."]
+offset_left = 1378.0
+offset_top = 622.0
+offset_right = 1419.0
+offset_bottom = 797.0
+text = "新
+建
+族
+譜"
+
+[node name="con" type="Button" parent="."]
+offset_left = 1248.0
+offset_top = 622.0
+offset_right = 1289.0
+offset_bottom = 797.0
+text = "載
+入
+族
+譜"
+
+[node name="con2" type="Button" parent="."]
+offset_left = 1121.0
+offset_top = 622.0
+offset_right = 1162.0
+offset_bottom = 797.0
+text = "數
+據
+管
+理"
+
+[node name="ex" type="Button" parent="."]
+offset_left = 1012.0
+offset_top = 622.0
+offset_right = 1053.0
+offset_bottom = 797.0
+text = "退
+
+
+出"
+
+[connection signal="pressed" from="new" to="." method="_on_new_pressed"]
+[connection signal="pressed" from="con2" to="." method="_on_con_2_pressed"]
+[connection signal="pressed" from="ex" to="." method="_on_ex_pressed"]

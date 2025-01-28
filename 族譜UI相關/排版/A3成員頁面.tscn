@@ -1,0 +1,108 @@
+[gd_scene load_steps=8 format=3 uid="uid://ccrtffrosefjo"]
+
+[ext_resource type="Script" path="res://族譜UI相關/排版/A3成員文本.gd" id="1_6m36n"]
+[ext_resource type="Texture2D" uid="uid://u6h44cjd416d" path="res://族譜UI相關/素材/brown-paper-textures.jpg" id="2_hxkxo"]
+[ext_resource type="Texture2D" uid="uid://csp1jo4ee0vgv" path="res://族譜UI相關/素材/書籍内頁.png" id="3_yju2q"]
+[ext_resource type="FontFile" uid="uid://du8jkny5waxwn" path="res://族譜UI相關/素材/TypeLand.com 康熙字典體完整版.ttf" id="4_6fbku"]
+[ext_resource type="Script" path="res://族譜UI相關/排版/成員內頁內容.gd" id="5_cu7kp"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_dvjex"]
+font = ExtResource("4_6fbku")
+font_size = 120
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_b0c1d"]
+font = ExtResource("4_6fbku")
+font_size = 76
+font_color = Color(0, 0, 0, 1)
+
+[node name="A3成員頁面" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6m36n")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_right = 4200.0
+offset_bottom = 2970.0
+scale = Vector2(0.33, 0.33)
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer"]
+layout_mode = 2
+texture = ExtResource("2_hxkxo")
+
+[node name="書籍内頁2" type="Sprite2D" parent="PanelContainer/TextureRect"]
+position = Vector2(2098.98, 1481.18)
+scale = Vector2(0.845962, 0.840005)
+texture = ExtResource("3_yju2q")
+
+[node name="書芯" type="Label" parent="PanelContainer/TextureRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -69.697
+offset_top = -1181.97
+offset_right = 105.303
+offset_bottom = -472.97
+grow_horizontal = 2
+grow_vertical = 2
+text = "軒
+轅
+族
+譜"
+label_settings = SubResource("LabelSettings_dvjex")
+
+[node name="頁碼1" type="Label" parent="PanelContainer/TextureRect"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.443
+anchor_right = 0.5
+anchor_bottom = 0.443
+offset_left = 18.1819
+offset_top = 1172.17
+offset_right = 119.182
+offset_bottom = 1390.17
+grow_horizontal = 2
+grow_vertical = 2
+text = "一 "
+label_settings = SubResource("LabelSettings_b0c1d")
+
+[node name="頁碼2" type="Label" parent="PanelContainer/TextureRect"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.443
+anchor_right = 0.5
+anchor_bottom = 0.443
+offset_left = -93.9395
+offset_top = 1172.17
+offset_right = 7.06055
+offset_bottom = 1390.17
+grow_horizontal = 2
+grow_vertical = 2
+text = "一 "
+label_settings = SubResource("LabelSettings_b0c1d")
+
+[node name="Container" type="Container" parent="."]
+layout_mode = 2
+offset_left = 724.0
+offset_top = 97.0
+offset_right = 1285.0
+offset_bottom = 894.0
+script = ExtResource("5_cu7kp")
+
+[node name="Container2" type="Container" parent="."]
+layout_mode = 2
+offset_left = 78.0
+offset_top = 97.0
+offset_right = 623.0
+offset_bottom = 884.0
+script = ExtResource("1_6m36n")

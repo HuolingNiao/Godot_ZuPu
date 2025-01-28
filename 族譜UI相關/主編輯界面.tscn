@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7rxf45cpi8x"]
+
+[ext_resource type="Script" path="res://族譜UI相關/主編輯界面.gd" id="1_o8rd7"]
+
+[node name="主編輯界面" type="Node2D"]
+script = ExtResource("1_o8rd7")

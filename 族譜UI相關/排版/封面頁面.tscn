@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://davngle50c0td"]
+
+[ext_resource type="Script" path="res://族譜UI相關/排版/封面頁面.gd" id="1_a6nmd"]
+[ext_resource type="FontFile" uid="uid://du8jkny5waxwn" path="res://族譜UI相關/素材/TypeLand.com 康熙字典體完整版.ttf" id="2_sov2l"]
+[ext_resource type="Texture2D" uid="uid://b87qm5u8jxw5x" path="res://族譜UI相關/素材/封面.jpg" id="2_ydu1g"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ehw2e"]
+font = ExtResource("2_sov2l")
+font_size = 80
+font_color = Color(0, 0, 0, 1)
+
+[node name="封面" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_a6nmd")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 2100.0
+offset_bottom = 2970.0
+scale = Vector2(0.33, 0.33)
+texture = ExtResource("2_ydu1g")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 107.0
+offset_top = 83.0
+offset_right = 145.0
+offset_bottom = 548.0
+label_settings = SubResource("LabelSettings_ehw2e")
+autowrap_mode = 1

@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://d2b2q2feod550"]
+
+[ext_resource type="Script" path="res://分支樹/分支樹範例.gd" id="1_8jlew"]
+[ext_resource type="Texture2D" uid="uid://u6h44cjd416d" path="res://族譜UI相關/素材/brown-paper-textures.jpg" id="2_6oehc"]
+[ext_resource type="PackedScene" uid="uid://d2u44jsqbcx3s" path="res://族譜UI相關/主菜單.tscn" id="3_1aq88"]
+
+[node name="範例" type="Node2D"]
+script = ExtResource("1_8jlew")
+
+[node name="Brown-paper-textures" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(949, 532)
+scale = Vector2(0.461128, 0.375)
+texture = ExtResource("2_6oehc")
+
+[node name="主菜單" parent="." instance=ExtResource("3_1aq88")]
+offset_left = 1464.0
+offset_top = 854.0
+offset_right = 1464.0
+offset_bottom = 854.0

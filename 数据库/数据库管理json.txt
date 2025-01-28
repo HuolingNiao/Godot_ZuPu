@@ -1,0 +1,134 @@
+extends Node
+class_name SJK2
+
+#var database_file = "user://数据库.json"
+var database_file = "res://数据库/数据库.json"
+var data = {}
+
+# 加载数据库
+func 加载数据库():
+	if FileAccess.file_exists(database_file):
+		var file = FileAccess.open(database_file, FileAccess.ModeFlags.READ)
+		var content = file.get_as_text()
+		file.close()
+		
+		var json = JSON.new()
+		var error = json.parse(content)
+		
+		if error == OK:
+			var loaded_data = json.get_data()
+			data = {"成员": []}
+			for member_data in loaded_data["成员"]:
+				if typeof(member_data) == TYPE_DICTIONARY:
+					var ry = RY.new("")
+					ry.从数据加载(member_data)
+					data["成员"].append(ry)
+				else:
+					print("Skipping invalid member_data: ", member_data)
+		else:
+			print("Error parsing JSON: ", error)
+			data = {"成员": []}
+	else:
+		data = {"成员": []}
+		保存数据库()
+
+# 保存数据库
+func 保存数据库():
+	var save_data = {"成员": []}
+	for member in data["成员"]:
+		if member is RY:
+			save_data["成员"].append(member.转换为数据())
+		elif typeof(member) == TYPE_DICTIONARY:
+			save_data["成员"].append(member)
+		else:
+			print("Unexpected member type in 保存数据库: ", member)
+	
+	var file = FileAccess.open(database_file, FileAccess.ModeFlags.WRITE)
+	var json_string = JSON.new().stringify(save_data)
+	file.store_string(json_string)
+	file.close()
+
+# 添加成员
+func 添加成员(member: RY):
+	data["成员"].append(member.转换为数据())
+	保存数据库()
+
+# 删除成员
+func 删除成员(member_id: int):
+	var filtered_members = []
+	for member in data["成员"]:
+		if member.id != member_id:
+			filtered_members.append(member)
+	data["成员"] = filtered_members
+	保存数据库()
+
+# 查找成员
+func 查找成员(name: String) -> Array:
+	var results = []
+	for member in data["成员"]:
+		if name in member.姓名:
+			results.append(member)
+	return results
+
+# 根据ID查找成员
+func 按ID查找(id: int) -> RY:
+	for member in data["成员"]:
+		if member.id == id:
+			var ry = RY.new("")
+			if typeof(member) == TYPE_DICTIONARY:
+				ry.从数据加载(member)
+			else:
+				print("Invalid type for member_data: ", member)
+				return null
+	return null
+	
+func 創建始祖(member: RY):
+	data["成员"]=[]
+	member.輩份 = 1
+	member.排行 = 1
+	member.父親排行 = 0
+	member.id = 生成id(member)
+	data["成员"].append(member)
+	保存数据库()
+	
+
+func 添加配偶(配偶: RY,目標id:int):
+	var 目標 = 按ID查找(目標id)
+	目標.配偶.append(配偶.id)
+	配偶.輩份 = 目標.輩份
+	配偶.排行 = 0
+	配偶.父親排行 = 目標.父親排行
+	配偶.id = 生成id(配偶)
+	目標.配偶.append(配偶.id)
+	添加成员(配偶)
+	
+func 添加兄弟(兄弟: RY,目標id:int):
+	var 目標 = 按ID查找(目標id)
+	兄弟.輩份 = 目標.輩份
+	兄弟.父親排行 = 目標.父親排行
+	兄弟.id = 生成id(兄弟)
+	添加成员(兄弟)
+	
+	
+func 添加子女(子女: RY,目標id:int):
+	var 目標 = 按ID查找(目標id)
+	子女.輩份 = 目標.輩份+1
+	子女.排行 = 目標.子女.size()+1
+	子女.父親排行 = 目標.父親排行
+	子女.id = 生成id(子女)
+	目標.子女.append(子女.id)
+	添加成员(子女)
+	
+	
+func 生成id(成員: RY):
+	var gender_map = {
+	"男": 1,
+	"女": 0
+}
+	var 世代碼 = str(成員.輩份).pad_zeros(3)
+	var 父代碼 = str(成員.父親排行).pad_zeros(2)
+	var 性別 = str(gender_map[成員.性别])
+	var 自排行 = str(成員.排行).pad_zeros(2)
+	var 隨機碼 = str(randi()%1000).pad_zeros(3)
+	var a = "%s-%s-%s-%s-%s" %[世代碼,父代碼,性別,自排行,隨機碼]
+	return int(a)
