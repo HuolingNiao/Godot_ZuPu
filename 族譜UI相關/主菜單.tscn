@@ -77,5 +77,6 @@ text = "退
 [connection signal="pressed" from="HBoxContainer/新建族譜" to="." method="新建族譜"]
 [connection signal="pressed" from="HBoxContainer/載入族譜" to="." method="載入族譜"]
 [connection signal="pressed" from="HBoxContainer/文件排版" to="." method="_on_文件排版_pressed"]
+[connection signal="pressed" from="HBoxContainer/導出pdf" to="." method="導出pdf"]
 [connection signal="pressed" from="HBoxContainer/返回主菜單" to="." method="返回主菜單"]
 [connection signal="pressed" from="HBoxContainer/退出應用" to="." method="退出"]

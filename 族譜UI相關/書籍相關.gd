@@ -9,6 +9,7 @@ var 前言 = ""
 var 後記 = ""
 var 前言頁面 = []
 var 後記頁面 = []
+var pdf頁面
 # 通用族譜序言和後記生成腳本
 # 使用方法：調用generate_intro或generate_epilogue函數，傳入姓氏作為參數
 
@@ -187,3 +188,140 @@ func 加載數據信息():
 	self.前言 = 成員.書籍信息["前言"]
 	self.後記 = 成員.書籍信息["後記"]
 	
+func 導出pdf():
+	get_tree().change_scene_to_file("res://族譜UI相關/排版/pdf測試.tscn")
+	var images = []
+	var tab_container = pdf頁面 as TabContainer
+
+	for i in tab_container.get_children():
+	# 切換到當前標籤頁
+		#tab_container.current_tab = i
+	
+	# 獲取當前標籤頁的內容
+		#var tab_content = tab_container.get_current_tab_control()
+	
+	# 等待一幀確保UI更新
+		await get_tree().process_frame
+	
+	# 擷取圖像
+		var img = await 視圖轉圖像(i)
+	
+		if img:
+			images.append(img)
+			img.save_png("res://screenshot" + str(i) + ".png")
+		else:
+			print("無法擷取圖像：" + str(i))
+
+	# 指定 PDF 輸出路徑
+	var pdf_path = "res://族譜輸出.pdf"
+
+	# 生成 PDF 文件
+	生成pdf(images, pdf_path)
+
+	# 提示導出完成
+	print("PDF 已成功導出到: ", pdf_path)
+
+# 擷取 Control 節點的圖像
+func 視圖轉圖像(control: Control) -> Image:
+	# 確保控制項有效
+	if !is_instance_valid(control):
+		return null
+	var size = control.get_rect().size
+	var viewport = SubViewport.new()
+	add_child(viewport)
+	
+	viewport.size = size
+	viewport.transparent_bg = false
+	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	
+	# 直接使用原始控制項而不是複製
+	viewport.add_child(control)
+	
+	# 多等待幾幀確保渲染完成
+	await RenderingServer.frame_post_draw
+	
+	var image = viewport.get_texture().get_image()
+	
+	# 將控制項移回原位
+	
+	viewport.queue_free()
+	
+	return image
+
+
+
+
+
+# 生成 PDF 文件（GDScript 純手寫 PDF）
+func 生成pdf(images: Array, pdf_path: String):
+	
+	var pdf_content = "%PDF-1.7\n"  # PDF 文件頭
+	var obj_count = 1
+	var xrefs = []
+	var binary_data = PackedByteArray()  # 存放二進制數據
+
+	# **1. 根目錄 (Catalog)**
+	var root_obj = obj_count
+	pdf_content += str(root_obj) + " 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n"
+	xrefs.append([root_obj, pdf_content.length()])
+	obj_count += 1
+
+	# **2. 頁面樹 (Pages)**
+	var pages_obj = obj_count
+	pdf_content += str(pages_obj) + " 0 obj\n<< /Type /Pages /Count " + str(images.size())
+	pdf_content += " /Kids ["
+	for i in range(images.size()):
+		pdf_content += str(obj_count + i + 1) + " 0 R "  # 頁面對象引用
+	pdf_content += "] >>\nendobj\n"
+	xrefs.append([pages_obj, pdf_content.length()])
+	obj_count += 1
+
+	# **3. 圖像與頁面對象**
+	for i in range(images.size()):
+		var image_data = images[i]
+		var img_obj = obj_count
+		var page_obj = obj_count + 1
+		obj_count += 2
+
+		# **3.1 將 PNG 轉換為 JPEG（PDF 需要 JPEG）**
+		var img_data_encoded = image_data_to_pdf_stream(image_data)
+		var img_length = img_data_encoded.size()
+
+		# **3.2 添加圖片對象**
+		var img_header = str(img_obj) + " 0 obj\n"
+		img_header += "<< /Type /XObject /Subtype /Image"
+		img_header += " /Width " + str(image_data.get_width())
+		img_header += " /Height " + str(image_data.get_height()) + " /ColorSpace /DeviceRGB"
+		img_header += " /BitsPerComponent 8 /Filter /DCTDecode /Length " + str(img_length) + " >>\n"
+		img_header += "stream\n"
+		pdf_content += img_header
+		xrefs.append([img_obj, pdf_content.length() + binary_data.size()])
+		binary_data += img_data_encoded
+		binary_data += "\nendstream\nendobj\n".to_utf8_buffer()
+
+		# **3.3 添加頁面對象**
+		var page_header = str(page_obj) + " 0 obj\n"
+		page_header += "<< /Type /Page /Parent 2 0 R /Resources << /XObject << /Im1 " + str(img_obj) + " 0 R >> >>"
+		page_header += " /MediaBox [0 0 " + str(image_data.get_width()) + " " + str(image_data.get_height()) + "]"
+		page_header += " /Contents " + str(img_obj) + " 0 R >>\nendobj\n"
+		pdf_content += page_header
+		xrefs.append([page_obj, pdf_content.length()])
+
+	# **4. XREF 表**
+	var xref_pos = pdf_content.length() + binary_data.size()
+	pdf_content += "xref\n0 " + str(obj_count) + "\n0000000000 65535 f \n"
+	for entry in xrefs:
+		pdf_content += "%010d 00000 n \n" % entry[1]
+	pdf_content += "trailer\n<< /Size " + str(obj_count) + " /Root 1 0 R >>\nstartxref\n" + str(xref_pos) + "\n%%EOF"
+
+	# **5. 寫入 PDF**
+	var file = FileAccess.open(pdf_path, FileAccess.WRITE)
+	file.store_string(pdf_content)  # 先寫入 PDF 文本部分
+	file.store_buffer(binary_data)  # 再寫入二進制圖片數據
+	file.close()
+	print("PDF 生成成功: " + pdf_path)
+
+# 將圖像數據轉換為 PDF 兼容格式
+func image_data_to_pdf_stream(image: Image) -> PackedByteArray:
+	image.convert(Image.FORMAT_RGB8)  # 確保為 RGB 格式
+	return image.save_jpg_to_buffer(80)

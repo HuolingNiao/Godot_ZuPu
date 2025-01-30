@@ -38,8 +38,10 @@ func 另存為(路径: String) -> bool:
 	var file = FileAccess.open(路径, FileAccess.ModeFlags.WRITE)
 	if file:
 		var save_data = {}
+		save_data[0] = 書籍信息
 		for id in data.keys():
-			save_data[id] = data[id].转换为数据()
+			if id != 0:
+				save_data[id] = data[id].转换为数据()
 		var content = var_to_bytes(save_data)
 		file.store_buffer(content)
 		file.close()
@@ -55,9 +57,12 @@ func 導入(路径: String) -> bool:
 			if parsed_data is Dictionary:
 				data.clear()
 				for id in parsed_data.keys():
-					var ry = RY.new("")
-					ry.从数据加载(parsed_data[id])
-					data[id] = ry
+					if id != 0:
+						var ry = RY.new("")
+						ry.从数据加载(parsed_data[id])
+						data[id] = ry
+					else:
+						書籍信息 = parsed_data[0]
 				file.close()
 				保存数据库()
 				return true

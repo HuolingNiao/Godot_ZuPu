@@ -11,3 +11,13 @@ offset_left = 1511.0
 offset_top = 878.0
 offset_right = 1511.0
 offset_bottom = 878.0
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+render_target_update_mode = 4
+
+[connection signal="pdf" from="主菜單" to="." method="_on_主菜單_pdf"]
