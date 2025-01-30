@@ -1,6 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://b7rxf45cpi8x"]
+[gd_scene load_steps=3 format=3 uid="uid://b7rxf45cpi8x"]
 
 [ext_resource type="Script" path="res://族譜UI相關/主編輯界面.gd" id="1_o8rd7"]
+[ext_resource type="PackedScene" uid="uid://d2u44jsqbcx3s" path="res://族譜UI相關/主菜單.tscn" id="2_xwfnk"]
 
 [node name="主編輯界面" type="Node2D"]
 script = ExtResource("1_o8rd7")
+
+[node name="主菜單" parent="." instance=ExtResource("2_xwfnk")]
+offset_left = 1511.0
+offset_top = 878.0
+offset_right = 1511.0
+offset_bottom = 878.0

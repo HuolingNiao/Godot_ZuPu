@@ -27,11 +27,10 @@ func 加载数据库():
 func 保存数据库():
 	var file = FileAccess.open(database_file, FileAccess.ModeFlags.WRITE)
 	var save_data = {}
+	save_data[0] = 書籍信息
 	for id in data.keys():
 		if id != 0:
 			save_data[id] = data[id].转换为数据()
-		else:
-			save_data[0] = 書籍信息
 	file.store_var(save_data)
 	file.close()
 
@@ -106,10 +105,10 @@ func 添加配偶(配偶: RY, 目標id: int):
 	var 目標 = 按ID查找(目標id)
 	if 目標:
 		if 目標.性别 == "男":
-			目標.關係 += "娶"+配偶.姓名+"為妻"
-			配偶.關係 = "配"+目標.姓名
+			#目標.關係 += "娶"+配偶.姓名+"為妻"
+			配偶.關係 = "嫁"+目標.姓名
 		else:
-			目標.關係 += "嫁"+配偶.姓名
+			#目標.關係 += "嫁"+配偶.姓名
 			配偶.關係 = "娶"+目標.姓名
 		配偶.輩份 = 目標.輩份
 		配偶.排行 = 0
@@ -141,7 +140,7 @@ func 添加子女(子女: RY, 目標id: int):
 		子女.輩份 = 目標.輩份 + 1
 		子女.排行 = 目標.子女.size() + 1
 		子女.父親排行 = 目標.父親排行
-		子女.關係 = 目標.姓名+"之"+長幼[子女.排行]
+		子女.關係 = 目標.姓名+"之"+長幼[子女.排行] + 子女.關係
 		子女.id = 生成id(子女)
 		目標.子女.append(子女.id)
 		添加成员(子女)
@@ -210,12 +209,5 @@ func 導入JSON(路径: String) -> bool:
 			file.close()
 	return false
 func 保存書籍数据(a:Dictionary):
-	var file = FileAccess.open(database_file, FileAccess.ModeFlags.WRITE)
-	var save_data = {}
-	for id in data.keys():
-		if id != 0:
-			save_data[id] = data[id].转换为数据()
-		else:
-			save_data[0] = a
-	file.store_var(save_data)
-	file.close()
+	書籍信息 = a
+	保存数据库()

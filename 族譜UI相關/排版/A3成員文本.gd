@@ -1,5 +1,5 @@
 extends Control
-
+var 書芯 = "軒轅族譜"
 var 書籍 = SJSD.new()
 
 func _ready() -> void:
@@ -9,7 +9,8 @@ func _ready() -> void:
 # 優化後的初始化方法
 func 初始化(a: Array, 頁碼: int) -> Control:
 	# 確保輸入數據不為空
-	
+	$"PanelContainer/TextureRect/書芯".text = 書芯
+	$"PanelContainer/TextureRect/書芯".autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	if a.is_empty():
 		print("初始化數據為空，無法處理")
 		return self
@@ -33,3 +34,6 @@ func 初始化(a: Array, 頁碼: int) -> Control:
 		$"PanelContainer/TextureRect/頁碼2".text = ""
 
 	return self
+func 更新書芯(a:String):
+	$"PanelContainer/TextureRect/書芯".text = a
+	$"PanelContainer/TextureRect/書芯".autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

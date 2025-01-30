@@ -15,6 +15,10 @@ run/main_scene="res://族譜UI相關/歡迎界面.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+SJSD_Only="*res://族譜UI相關/書籍相關.gd"
+
 [display]
 
 window/size/viewport_width=1920

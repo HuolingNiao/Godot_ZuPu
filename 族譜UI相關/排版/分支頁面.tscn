@@ -1,5 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://bauarow646pth"]
+[gd_scene load_steps=9 format=3 uid="uid://bauarow646pth"]
 
+[ext_resource type="Script" path="res://族譜UI相關/排版/分支頁面.gd" id="1_dm5sc"]
 [ext_resource type="Texture2D" uid="uid://u6h44cjd416d" path="res://族譜UI相關/素材/brown-paper-textures.jpg" id="2_6bagr"]
 [ext_resource type="Texture2D" uid="uid://b7odo8f224ldy" path="res://族譜UI相關/素材/分支内頁.png" id="2_6hs3k"]
 [ext_resource type="PackedScene" uid="uid://d2b2q2feod550" path="res://分支樹/範例.tscn" id="4_kfogb"]
@@ -23,6 +24,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_dm5sc")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 0

@@ -32,6 +32,12 @@ func _on_button_pressed() -> void:
 			當前id = 1
 			$Label.text = "您貌似沒有輸入姓氏呢"
 		else:
+			SJSD_Only.姓氏 = 姓氏
+			SJSD_Only.字輩 = 字輩
+			SJSD_Only.初始化(姓氏)
+			SJSD_Only.儲存書籍信息()
+			SJSD_Only.成員.data={}
+			SJSD_Only.成員.保存数据库()
 			get_tree().change_scene_to_file("res://数据库/分支樹管理系統.tscn")
 		
 	pass # Replace with function body.

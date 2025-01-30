@@ -1,7 +1,7 @@
 extends Node2D
 
 @onready var tree = $Tree
-var 数据 = SJK.new()
+var 数据 = SJSD_Only.成員
 var a = RY.new("")
 var b
 func _ready() -> void:

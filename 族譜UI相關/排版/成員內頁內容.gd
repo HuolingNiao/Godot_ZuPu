@@ -56,7 +56,7 @@ func 生成成員信息(a:RY):
 	姓名欄.add_child(世代)
 	姓名欄.add_child(姓名)
 	var 簡介欄 = HBoxContainer.new()
-	var b = SJSD.拆分文本(a.個人簡介,15)
+	var b = SJSD.拆分文本(a.個人簡介,22)
 	for i in b:
 		var label = Label.new()
 		label.text = i

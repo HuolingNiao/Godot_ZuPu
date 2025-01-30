@@ -71,5 +71,6 @@ text = "退
 出"
 
 [connection signal="pressed" from="new" to="." method="_on_new_pressed"]
+[connection signal="pressed" from="con" to="." method="_on_con_pressed"]
 [connection signal="pressed" from="con2" to="." method="_on_con_2_pressed"]
 [connection signal="pressed" from="ex" to="." method="_on_ex_pressed"]

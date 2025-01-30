@@ -1,6 +1,6 @@
 extends Control
 
-@onready var 書芯 = $"PanelContainer/TextureRect/書芯"
+@onready var 書芯 = "軒轅族譜"
 @onready var 頁碼1 = $"PanelContainer/TextureRect/頁碼1"
 @onready var 頁碼2 = $"PanelContainer/TextureRect/頁碼2"
 @onready var Container1 = $"Container"
@@ -25,8 +25,8 @@ func 初始化(a: Array, 頁碼: int) -> Control:
 	# 初始化第一頁內容
 	$"Container".初始化(a[0])
 	$"PanelContainer/TextureRect/頁碼1".text = 書籍.數字轉中文(頁碼1_顯示) 
-	print(頁碼1_顯示) # 顯示頁碼
-
+	$"PanelContainer/TextureRect/書芯".text = 書芯
+	$"PanelContainer/TextureRect/書芯".autowrap_mode =TextServer.AUTOWRAP_WORD_SMART
 	# 處理第二頁（若有）
 	if a.size() > 1:
 		$"Container2".初始化(a[1])
