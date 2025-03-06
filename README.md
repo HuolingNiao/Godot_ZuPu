@@ -17,7 +17,7 @@
 
 1. 克隆此代碼庫：
    ```bash
-   https://github.com/HuolingNiao/Godot_ZuPu.git
+   git clone https://github.com/HuolingNiao/Godot_ZuPu.git
 2.將 Godot 4.3 程序放入文件夾內，即可運行。
 
 ## 開發
