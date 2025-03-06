@@ -59,64 +59,62 @@ func 創建始祖():
 		信息展示("已存在家族成员，无法创建始祖")
 		return
 	$AnimationPlayer.play("進入")
-	await $"VBoxContainer/数据库管理".完成
 	var a = RY.new("") 
-	a.初始化($"VBoxContainer/数据库管理".新成員) # 创建新的始祖成员
+	$"VBoxContainer/数据库管理".同步人員(a)
+	await $"VBoxContainer/数据库管理".完成
+	
+	a=$"VBoxContainer/数据库管理".新成員 # 创建新的始祖成员
 	数据.創建始祖(a)
 	刷新树形图()
-	$"VBoxContainer/数据库管理".清空输入框()
-	$AnimationPlayer.play("出去")
 
 func 添加配偶():
 	$AnimationPlayer.play("進入")
 	var selected = tree.get_selected()
+	var 配偶 = RY.new("")
+	$"VBoxContainer/数据库管理".同步人員(配偶)
 	await $"VBoxContainer/数据库管理".完成
 	if selected:
 		var member_id = selected.get_metadata(0)
 		if member_id != null:
 			var member = 数据.按ID查找(member_id)
 			if member:
-				var 配偶 = RY.new("")
-				配偶.初始化($"VBoxContainer/数据库管理".新成員)
+				配偶=$"VBoxContainer/数据库管理".新成員
 				数据.添加配偶(配偶, member_id)
 				刷新树形图()
 				信息展示("加入配偶成功")
-				$"VBoxContainer/数据库管理".清空输入框()
-				$AnimationPlayer.play("出去")
 				return
 	信息展示("加入配偶失敗")
 
 func 添加子女():
 	$AnimationPlayer.play("進入")
 	var selected = tree.get_selected()
+	var 子女 = RY.new("")
+	$"VBoxContainer/数据库管理".同步人員(子女)
 	await $"VBoxContainer/数据库管理".完成
 	if selected:
 		var member_id = selected.get_metadata(0)
 		if member_id != null:
-			var 子女 = RY.new("")
-			子女.初始化($"VBoxContainer/数据库管理".新成員)
+			
+			子女=$"VBoxContainer/数据库管理".新成員
 			数据.添加子女(子女, member_id)
 			刷新树形图()
 			信息展示("加入子女成功")
-			$"VBoxContainer/数据库管理".清空输入框()
-			$AnimationPlayer.play("出去")
 			return
 	信息展示("加入子女失敗")
 
 func 添加兄弟():
 	$AnimationPlayer.play("進入")
 	var selected = tree.get_selected()
+	var 兄弟 = RY.new("")
+	$"VBoxContainer/数据库管理".同步人員(兄弟)
 	await $"VBoxContainer/数据库管理".完成
 	if selected:
 		var member_id = selected.get_metadata(0)
 		if member_id != null:
-			var 兄弟 = RY.new("")
-			兄弟.初始化($"VBoxContainer/数据库管理".新成員)
+			兄弟=$"VBoxContainer/数据库管理".新成員
 			数据.添加兄弟(兄弟, member_id)
 			刷新树形图()
 			信息展示("加入兄妹成功")
-			$"VBoxContainer/数据库管理".清空输入框()
-			$AnimationPlayer.play("出去")
 			return
 	信息展示("加入兄妹失敗")
 
@@ -160,10 +158,9 @@ func 修改成員():
 			var cy = 数据.按ID查找(member_id)
 			$"VBoxContainer/数据库管理".更新人員(cy)
 			await $"VBoxContainer/数据库管理".完成
-			cy.更新($"VBoxContainer/数据库管理".新成員)
+			cy=$"VBoxContainer/数据库管理".新成員
 			数据.更新成员(cy)
-			$"VBoxContainer/数据库管理".清空输入框()
-			$AnimationPlayer.play("出去")
+			
 			return
 
 func 信息展示(s: String):
@@ -175,9 +172,9 @@ func 更新始祖按钮状态():
 
 
 func _on_数据库管理_button_pressed(data: Variant) -> void:
-	b = RY.new("")
 	#b.初始化($"VBoxContainer/数据库管理".新成員)
-	$"VBoxContainer/数据库管理".更新人員(b)
+	$"VBoxContainer/数据库管理".清空输入框()
+	$AnimationPlayer.play("出去")
 	pass # Replace with function body.
 
 func 生成簡介():

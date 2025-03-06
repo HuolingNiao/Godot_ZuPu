@@ -254,74 +254,24 @@ func 視圖轉圖像(control: Control) -> Image:
 
 # 生成 PDF 文件（GDScript 純手寫 PDF）
 func 生成pdf(images: Array, pdf_path: String):
-	
-	var pdf_content = "%PDF-1.7\n"  # PDF 文件頭
-	var obj_count = 1
-	var xrefs = []
-	var binary_data = PackedByteArray()  # 存放二進制數據
-
-	# **1. 根目錄 (Catalog)**
-	var root_obj = obj_count
-	pdf_content += str(root_obj) + " 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n"
-	xrefs.append([root_obj, pdf_content.length()])
-	obj_count += 1
-
-	# **2. 頁面樹 (Pages)**
-	var pages_obj = obj_count
-	pdf_content += str(pages_obj) + " 0 obj\n<< /Type /Pages /Count " + str(images.size())
-	pdf_content += " /Kids ["
+	var pdf = PDF.new()
+	pdf.newPDF()
+	pdf.setTitle("New PDF")
+	pdf.setCreator("huolingniao")
+	# 為每個圖片創建新頁面
 	for i in range(images.size()):
-		pdf_content += str(obj_count + i + 1) + " 0 R "  # 頁面對象引用
-	pdf_content += "] >>\nendobj\n"
-	xrefs.append([pages_obj, pdf_content.length()])
-	obj_count += 1
-
-	# **3. 圖像與頁面對象**
-	for i in range(images.size()):
-		var image_data = images[i]
-		var img_obj = obj_count
-		var page_obj = obj_count + 1
-		obj_count += 2
-
-		# **3.1 將 PNG 轉換為 JPEG（PDF 需要 JPEG）**
-		var img_data_encoded = image_data_to_pdf_stream(image_data)
-		var img_length = img_data_encoded.size()
-
-		# **3.2 添加圖片對象**
-		var img_header = str(img_obj) + " 0 obj\n"
-		img_header += "<< /Type /XObject /Subtype /Image"
-		img_header += " /Width " + str(image_data.get_width())
-		img_header += " /Height " + str(image_data.get_height()) + " /ColorSpace /DeviceRGB"
-		img_header += " /BitsPerComponent 8 /Filter /DCTDecode /Length " + str(img_length) + " >>\n"
-		img_header += "stream\n"
-		pdf_content += img_header
-		xrefs.append([img_obj, pdf_content.length() + binary_data.size()])
-		binary_data += img_data_encoded
-		binary_data += "\nendstream\nendobj\n".to_utf8_buffer()
-
-		# **3.3 添加頁面對象**
-		var page_header = str(page_obj) + " 0 obj\n"
-		page_header += "<< /Type /Page /Parent 2 0 R /Resources << /XObject << /Im1 " + str(img_obj) + " 0 R >> >>"
-		page_header += " /MediaBox [0 0 " + str(image_data.get_width()) + " " + str(image_data.get_height()) + "]"
-		page_header += " /Contents " + str(img_obj) + " 0 R >>\nendobj\n"
-		pdf_content += page_header
-		xrefs.append([page_obj, pdf_content.length()])
-
-	# **4. XREF 表**
-	var xref_pos = pdf_content.length() + binary_data.size()
-	pdf_content += "xref\n0 " + str(obj_count) + "\n0000000000 65535 f \n"
-	for entry in xrefs:
-		pdf_content += "%010d 00000 n \n" % entry[1]
-	pdf_content += "trailer\n<< /Size " + str(obj_count) + " /Root 1 0 R >>\nstartxref\n" + str(xref_pos) + "\n%%EOF"
-
-	# **5. 寫入 PDF**
-	var file = FileAccess.open(pdf_path, FileAccess.WRITE)
-	file.store_string(pdf_content)  # 先寫入 PDF 文本部分
-	file.store_buffer(binary_data)  # 再寫入二進制圖片數據
-	file.close()
-	print("PDF 生成成功: " + pdf_path)
-
-# 將圖像數據轉換為 PDF 兼容格式
-func image_data_to_pdf_stream(image: Image) -> PackedByteArray:
-	image.convert(Image.FORMAT_RGB8)  # 確保為 RGB 格式
-	return image.save_jpg_to_buffer(80)
+		var image = images[i]
+		
+		# 如果不是第一頁,創建新頁面
+		if i > 0:
+			pdf.newPage()
+			
+		# 將圖片添加到當前頁面
+		pdf.newImage(i+1, Vector2(0, 0), image)
+		
+	# 導出 PDF 文件
+	var success = pdf.export(pdf_path)
+	if success:
+		print("PDF 生成成功: " + pdf_path)
+	else:
+		print("PDF 生成失敗")

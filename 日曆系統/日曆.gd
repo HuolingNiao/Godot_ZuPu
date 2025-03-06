@@ -124,29 +124,33 @@ func format_lunar_day(day: int) -> String:
 		return "卅"
 
 func number_to_chinese_age(num: int) -> String:
+	# 假設有一個中文數字陣列
+	const CHINESE_NUMBERS = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十"]
+	
 	if num <= 10:
 		return CHINESE_NUMBERS[num] + "歲"
 		
 	var hundreds = num / 100
-	var tens = num / 10
+	var tens = (num % 100) / 10  # 修正：只取百位以下的十位數
 	var ones = num % 10
 	
 	var result = ""
-	# Handle hundreds
+	# 處理百位
 	if hundreds > 0:
 		result += CHINESE_NUMBERS[hundreds] + "百"
-		if tens > 0:
-			# Add 零 between hundred and tens if there are tens
-			result += CHINESE_NUMBERS[0] if ones > 0 or tens > 1 else ""
 	
-	# Handle tens
-	if tens > 1 or (hundreds > 0 and tens > 0):
-		result += CHINESE_NUMBERS[tens]
+	# 處理十位
 	if tens > 0:
+		if hundreds > 0 and tens < 2:  # 100-119的情況
+			result += CHINESE_NUMBERS[0]  # 加零
+		if tens > 1 or hundreds == 0:  # 20-99 或 200-999時顯示十位數字
+			result += CHINESE_NUMBERS[tens]
 		result += "十"
 	
-	# Handle ones
+	# 處理個位
 	if ones > 0:
+		if hundreds > 0 and tens == 0:  # 例如 102 需要加零
+			result += CHINESE_NUMBERS[0]
 		result += CHINESE_NUMBERS[ones]
 		
 	return result + "歲"
@@ -162,7 +166,11 @@ static func 獲取當前時間() -> SJ:
 	a.輸入為空 = false
 	return a
 static func 轉換時間(a:String)-> SJ:
+	var b = SJ.new()
 	var date_parts = a.split("+")
+	if date_parts[0] == "":
+		b.輸入為空 = true
+		return
 	var hour_val = int(date_parts[1]) * 2 if int(date_parts[1]) > 0 else 23
 	if !檢查日期格式(date_parts[0]):
 			print("Invalid date format. Use YYYY-MM-DD")
@@ -175,7 +183,7 @@ static func 轉換時間(a:String)-> SJ:
 	if !檢查日期值(y, m, d, hour_val):
 		print("Invalid date values")
 		return
-	var b = SJ.new()
+	
 	b.year = y
 	b.month = m
 	b.day = d

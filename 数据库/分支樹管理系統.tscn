@@ -138,5 +138,5 @@ offset_bottom = 39.0
 [connection signal="pressed" from="VBoxContainer/修改成員" to="." method="修改成員"]
 [connection signal="pressed" from="VBoxContainer/刪除成員" to="." method="刪除成員"]
 [connection signal="pressed" from="VBoxContainer/清空數據庫" to="." method="清空數據庫"]
-[connection signal="更新簡介" from="VBoxContainer/数据库管理" to="." method="生成簡介"]
+[connection signal="button_pressed" from="VBoxContainer/数据库管理" to="." method="_on_数据库管理_button_pressed"]
 [connection signal="錯誤" from="VBoxContainer/数据库管理" to="." method="_on_数据库管理_錯誤"]

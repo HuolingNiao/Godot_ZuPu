@@ -75,7 +75,7 @@ func 輸出img(i:Control):
 	var image = $SubViewportContainer/SubViewport.get_texture().get_image()
 	image.convert(Image.FORMAT_RGB8)
 	image.save_jpg_to_buffer(80)
-	image.save_png("res://screenshot" + str(i) + ".png")
+	#image.save_png("res://screenshot" + str(i) + ".png")
 	$SubViewportContainer/SubViewport.remove_child(a)
 	return image
 func 導出pdf():
